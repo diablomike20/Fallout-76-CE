@@ -1,0 +1,42 @@
+Usage and offsets/structs/functions (internal):
+Code:
+/*
+//1. Call CenterOnWorld, and wait until there's a black screen with HUD visible:
+char Worldspace[256]{};
+sprintf_s(Worldspace, "Appalachia");
+CenterOnWorld(GetLocalPlayer(), Worldspace, 0, 0);
+ 
+//2. Call ResetReference, and wait for the world to load (can take over a minute):
+ResetReference(GetLocalPlayer());
+ 
+//3. Call EquipLocalPlayer:
+EquipLocalPlayer();
+ 
+//PAD macro from UC post: https://www.unknowncheats.me/forum/2579434-post2.html
+*/
+ 
+static DWORD64 Exe = NULL;
+ 
+#define OFFSET_LocalPlayer                      0x05ADC1E0//1.7.1.19
+#define OFFSET_ScriptConstructor                0x00B77030//1.7.1.19
+#define OFFSET_CallFunction                     0x00BC2D20//1.7.1.19
+#define OFFSET_String1StringOptional10          0x054D19E0//1.7.1.19 -> Used by CallFunction, CallGlobalFunction
+#define OFFSET_ResetReference                   0x00B87E80//1.7.1.19 -> (RecycleActor)
+#define OFFSET_ObjectReference1                 0x054D22B0//1.7.1.19 -> Used by ResetReference (RecycleActor)
+#define OFFSET_CenterOnWorld                    0x019D6400//1.7.1.19
+ 
+#define CONCAT_IMPL(x, y) x##y
+#define MACRO_CONCAT(x, y) CONCAT_IMPL(x, y)
+#define PAD(SIZE) BYTE MACRO_CONCAT(_pad, __COUNTER__)[SIZE];
+ 
+#define StringParamLength 0x7E
+#define StringOptionalCount 10
+ 
+struct StringParam
+{
+	/*0x0000*/short m_Length;
+	/*0x0002*/char m_String[StringParamLength];
+};
+ 
+struct StringOptionalParam
+{
