@@ -1,0 +1,8 @@
+#define VTABLE_ResetVendorMsg                   0x040DD208//1.7.1.19
+struct ResetVendorMsg
+{
+	/*0x0000*/DWORD64 m_vftable0000;
+	/*0x0008*/DWORD m_EntityID;//Vendor
+	/*0x000C*/PAD(0x0004);
+	/*0x0010*/DWORD64 m_Unknown0010;//NULL
+};
